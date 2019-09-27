@@ -1,0 +1,23 @@
+				.def 	_dotp_func_test
+
+_dotp_func_test:	.cproc	ap,bp,count 	;passage de paramètres
+				.reg 	a,b,c,prod,sum 	;registres
+
+				ZERO	sum
+				ZERO	prod
+LOOP:
+				LDH		*ap++,a
+				LDH		*bp++,b
+
+				MPY		a,b,prod
+				ADD		prod,sum,sum
+
+				LDH		*ap,c
+				STH		c,*-ap[1]
+
+				SUB		count,1,count
+
+[count]			B 		LOOP
+
+				.return sum			;return sum as result
+				.endproc 			;end linear asm function

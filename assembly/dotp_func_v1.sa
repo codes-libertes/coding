@@ -1,0 +1,28 @@
+				.def 	_dotp_func_v1
+
+_dotp_func_v1:	.cproc	ap,bp,count 	;passage de paramètres
+				.reg 	a,b,c,d,prod,sum 	;registres
+
+				ZERO	sum
+				ZERO	prod
+LOOP:
+				LDH		*ap++,a
+				LDH		*bp++,b
+
+				MPY		a,b,prod
+				ADD		prod,sum,sum
+				SUB		count,1,count
+[count]			B 		LOOP
+
+				ADD		5,count,count
+LOOPX:
+				LDH		*-ap[count],c
+				ADD		count,1,d
+				STH		c,*-ap[d]
+
+				SUB		count,1,count
+[count]			B		LOOPX
+
+
+				.return sum			;return sum as result
+				.endproc 			;end linear asm function
